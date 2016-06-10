@@ -1,17 +1,39 @@
-CHadamard <- function (a){
+CHadamard <- function (q){
     I=matrix(c(1,0,0,1),nrow=2,ncol=2)
-    Z=matrix(c(1,0,0,-1),nrow=2,ncol=2)
-    q00=matrix(c(1,0,0,0),nrow=4,ncol=1)
-    q10=matrix(c(0,0,1,0),nrow=4,ncol=1)
-    q11 = matrix(c(0,0,0,1),nrow=4,ncol=1)
-    A= exp(3i*pi/8) * PauliX(SGate(Hadamard(TGate(Hadamard(S1Gate(I))))))
 
-    B = exp(-1i*pi/8) * SGate(Hadamard(T1Gate(Hadamard(S1Gate(Hadamard(SGate(Hadamard(I))))))))
-    C = exp(-1i*pi/8) * Hadamard(SGate(Hadamard(I)))
-    a = A %*% Z %*% B %*% Z %*% C
-    b = I=matrix(c(1,0,0,-1i),nrow=2,ncol=2)
-    d = a %*% b
-    m=kronecker(a,b,"*")
-    n= m %*% H %*% q10
-    p = m %*% q11
+    # Compute 1st chain
+    a = SGate(Hadamard(I))
+
+    # Compute 2nd chain
+    b = S1Gate(Hadamard(I))
+
+    #Compute 1st composite
+    c = kronecker(a,b,"*")
+
+    # Apply CNOT
+    d = CNOT(c)
+    d1 = d %*% q
+
+    # Compute 3rd chain
+    e = TGate(Hadamard(I))
+
+    # Compute 2nd composite
+    f1 = kronecker(I,e,"*")
+
+    # Apply CNOT
+    f2 = CNOT(f1)
+
+    # Compute the result of 2nd composite
+    g1 = f2 %*% d1
+
+
+    # Compute 3rd gate chain
+    i=PauliX(SGate(Hadamard(TGate(I))))
+    j = kronecker(I,i,"*")
+    k = j %*% g1
+    plotMeasurement(measurement(k))
+
+
+
+
 }

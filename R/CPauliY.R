@@ -18,6 +18,7 @@ CPauliY <- function(q){
 
     e = d %*%  c
 
+
     f = measurement(e)
     plotMeasurement(f)
 }

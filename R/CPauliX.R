@@ -7,15 +7,15 @@ CPauliX <- function(q){
     # Apply CNOT
     b = CNOT(a)
 
-    c <- b %*% q
-
     # Compute 2nd composite
     d = kronecker(I,I,"*")
 
     # Compute result
 
-    e = d %*%  c
+    e = d %*%  b
 
-    f = measurement(e)
-    plotMeasurement(f)
+    f = e %*% q
+
+    g = measurement(f)
+    plotMeasurement(g)
 }

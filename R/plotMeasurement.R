@@ -14,7 +14,11 @@ plotMeasurement <- function(a){
         c$qubits <- c("0","1")
     } else if(b == 4){
         c$qubits <- c("00","01","10","11")
-    } else{
+    } else if(b == 8){
+        c$qubits <- c("000","001","010","011","100","101","110","111")
+    }
+
+    else{
         print("Not supported")
     }
     ggplot(c,aes(x=qubits,y=p,fill=p)) + geom_bar(stat="identity") +
